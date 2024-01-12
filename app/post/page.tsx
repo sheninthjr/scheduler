@@ -1,11 +1,21 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { trpc } from "../trpc/client";
 
 const page = () => {
-  const { data } = trpc.getTodos.useQuery();
+  const mutation = trpc.schedulePost.useMutation();
+  const [ title,setTitle ] = useState('')
+  const handlePosting = ({title}:any)=>{
+    const data = title
+    mutation.mutate({ title })
+  }
+  return <>
+  <div>
+    <input className="text-black" value={title} onChange={(e)=> setTitle(e.target.value)} type="text" name="" id="" />
+    <button onClick={()=>handlePosting({title})}>Submit</button>
 
-  return <div>{data}</div>;
+  </div>
+  </>;
 };
 
 export default page;
