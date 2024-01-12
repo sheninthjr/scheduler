@@ -11,6 +11,12 @@ export const userRouter = router({
         let email = opts.input.email;
         let name = opts.input.name;
         let image = opts.input.image;
+        const existing = await opts.ctx.db.User.findOne({ email })
+        if(existing){
+            return {
+                userId : existing._id
+            }
+        }
         const response = await opts.ctx.db.User.insertMany([{
             email,
             name,
