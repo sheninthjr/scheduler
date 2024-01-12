@@ -4,6 +4,7 @@ import "./globals.css";
 import NextAuthProvider from "./lib/NextAuthProvider";
 import RecoilContextProvider from "./lib/RecoilContextProvider";
 import Providers from "./lib/Providers";
+import NavBar from "./components/NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <RecoilContextProvider>
-            <NextAuthProvider>{children}</NextAuthProvider>
+            <NextAuthProvider>
+              <NavBar />
+              {children}
+            </NextAuthProvider>
           </RecoilContextProvider>
         </Providers>
       </body>

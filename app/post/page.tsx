@@ -1,9 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { trpc } from "../trpc/client";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
-import Init from "../components/Init";
 import { useRecoilValue } from "recoil";
 import { userID } from "../store/atoms/userId";
 
@@ -11,23 +8,45 @@ const page = () => {
   const mutation = trpc.schedule.schedulePost.useMutation();
   const userId = useRecoilValue(userID);
   const [title, setTitle] = useState("");
-  const id = userId.id
-  const handlePosting = ({ title }: any) => {
-    mutation.mutate({ title, userId:id || "" });
-  };
+  const [day, setDay] = useState("");
+  const id = userId.id;
+  console.log(id)
 
+  const parsedDate = new Date(day);
+  const options = { month: "long", day: "numeric", year: "numeric" };
+  //@ts-ignore
+  const formattedDate = parsedDate.toLocaleDateString("en-US", options);
+  const handlePosting = ({ title }: any) => {
+    mutation.mutate({ title, day: formattedDate, userId: id || "" });
+  };
   return (
     <>
-      <div>
-        <input
-          className="text-black"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          type="text"
-          name=""
-          id=""
-        />
-        <button onClick={() => handlePosting({ title })}>Submit</button>
+      <div className="flex justify-center text-white h-screen items-center">
+        <div className="flex flex-col space-y-4 bg-slate-900 w-1/2 h-screen pt-20 p-4">
+          <div className="h-screen flex text-black flex-col space-y-4 justify-center items-center">
+            <input
+              className="text-black h-10 rounded-lg p-2"
+              value={title}
+              placeholder="Title"
+              onChange={(e) => setTitle(e.target.value)}
+              type="text"
+              name=""
+              id=""
+            />
+            <input
+              type="date"
+              className="rounded-lg p-2"
+              value={day}
+              onChange={(e) => setDay(e.target.value)}
+            />
+            <button
+              className="text-white bg-green-600 p-2 rounded-lg"
+              onClick={() => handlePosting({ title })}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );
