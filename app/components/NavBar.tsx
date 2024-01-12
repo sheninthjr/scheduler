@@ -1,9 +1,20 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
-import React from "react";
+import React, { useEffect } from "react";
+import { trpc } from "../trpc/client";
 
 const NavBar = () => {
   const { data: session } = useSession();
+  const userSignin = trpc.user.sigin.useMutation()
+  useEffect(() => {
+    if (session && session.user?.email && session.user.image && session.user.name) {
+      userSignin.mutate({
+        email: session.user.email,
+        image: session.user.image,
+        name: session.user.name,
+      });
+    }
+  }, [session?.user?.email]);
   if (!session) {
     return (
       <div>

@@ -1,5 +1,5 @@
 import { appRouter } from "@/app/server";
-import { Post } from "@/app/server/db";
+import { Post, User } from "@/app/server/db";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
 const handler = (req: Request) =>
@@ -9,9 +9,9 @@ const handler = (req: Request) =>
     router: appRouter,
     createContext: () => ({
       db: {
-        Post: Post
-      },
-      userId: crypto.randomUUID()
+        Post: Post,
+        User: User
+      }
     }),
   });
 

@@ -6,4 +6,11 @@ const postSchema = new mongoose.Schema({
     done: String
 })
 
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    image: String
+})
+
 export const Post = mongoose.models.Post || mongoose.model('Post',postSchema)
+export const User = mongoose.models.User || mongoose.model('User',userSchema)
