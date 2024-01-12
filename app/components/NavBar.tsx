@@ -2,19 +2,49 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 import { trpc } from "../trpc/client";
+import { useSetRecoilState } from "recoil";
+import { userID } from "../store/atoms/userId";
 
 const NavBar = () => {
   const { data: session } = useSession();
-  const userSignin = trpc.user.sigin.useMutation()
+  const userSignin = trpc.user.signIn.useMutation();
+  const setUserId = useSetRecoilState(userID);
+
   useEffect(() => {
-    if (session && session.user?.email && session.user.image && session.user.name) {
-      userSignin.mutate({
-        email: session.user.email,
-        image: session.user.image,
-        name: session.user.name,
-      });
-    }
+    const updateUser = async () => {
+      if (
+        session &&
+        session.user?.email &&
+        session.user.image &&
+        session.user.name
+      ) {
+        try {
+          if (
+            session &&
+            session.user?.email &&
+            session.user.image &&
+            session.user.name
+          ) {
+            userSignin.mutate({
+              email: session.user?.email,
+              image: session.user?.image,
+              name: session.user?.name,
+            });
+          }
+        } catch (error) {
+          console.error("Error during mutation:", error);
+        }
+      }
+    };
+    updateUser();
   }, [session?.user?.email]);
+
+  useEffect(() => {
+    if (userSignin.data?.userId) {
+      setUserId({ id: userSignin.data.userId });
+    }
+  }, [userSignin.data?.userId]);
+
   if (!session) {
     return (
       <div>

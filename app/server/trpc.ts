@@ -5,4 +5,4 @@ const t = initTRPC.context<{db: { Post : typeof Post, User: typeof User}; userId
 
 export const router = t.router;
 export const publicProcedure = t.procedure;
- 
+export const middleware = t.middleware;
