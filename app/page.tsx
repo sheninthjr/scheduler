@@ -45,11 +45,17 @@ export default function Home() {
   const sortedData = data?.sort((a, b) => {
     const dateA = new Date(a?.day);
     const dateB = new Date(b?.day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (dateA.toISOString().substring(0, 10) === today.toISOString().substring(0, 10)) return -1; 
+    if (dateB.toISOString().substring(0, 10) === today.toISOString().substring(0, 10)) return 1;  
+    if (a.done === 'true' && b.done === 'false') return 1;
+    if (a.done === 'false' && b.done === 'true') return -1;
     if (dateA > dateB) return 1;
     if (dateA < dateB) return -1;
-
     return 0;
   });
+
   return (
     <>
       <div className="flex justify-center text-white h-screen items-center">
