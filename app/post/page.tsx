@@ -44,6 +44,7 @@ const Page = () => {
             <input
               type="date"
               className="rounded-lg p-2 text-black"
+              placeholder="Date"
               value={day}
               onChange={(e) => setDay(e.target.value)}
             />
