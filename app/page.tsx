@@ -46,10 +46,10 @@ export default function Home() {
   return (
     <>
       <div className="flex justify-center text-white h-screen items-center">
-        <div className="flex flex-col space-y-4 bg-slate-900 w-1/2 h-screen pt-20 p-4 overflow-y-auto custom-scrollbar">
+        <div className="flex flex-col space-y-4 w-full  md:w-1/2 lg:bg-slate-900 lg:w-1/2 xl:bg-slate-900 xl:w-1/2 h-screen pt-20 p-4 overflow-y-auto custom-scrollbar">
           {data?.map((value, index) => (
             <div key={index}>
-              <div className="flex bg-gray-950 h-10 rounded-lg p-2 w-fit">
+              <div className="flex bg-white text-black font-serif text-lg rounded-lg p-2 w-fit">
                 {value.day}
               </div>
               <div className="p-2">
@@ -66,7 +66,7 @@ export default function Home() {
                     }
                     className="mr-2"
                   />
-                  {value.title}{value.done}
+                  {value.title}
                 </div>
               </div>
             </div>
