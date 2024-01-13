@@ -1,11 +1,10 @@
-import { z } from "zod";
-import { publicProcedure, router } from "./trpc";
+import { router } from "./trpc";
 import mongoose from "mongoose";
 import { scheduleRouter } from "./routers/schedule";
 import { userRouter } from "./routers/user";
 
 mongoose.connect(
-  "mongodb+srv://sheninthjr:Sheninth23@todo.on3kfnx.mongodb.net/scheduler",
+  process.env.MONGODB_URI || "",
   { dbName: "scheduler" }
 );
 

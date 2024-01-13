@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react"; // Import useEffect
+import { useState, useEffect } from "react";
 import { trpc } from "./trpc/client";
 import { useRecoilValue } from "recoil";
 import { userID } from "./store/atoms/userId";
@@ -66,7 +66,7 @@ export default function Home() {
                     }
                     className="mr-2"
                   />
-                  {value.title}
+                  {value.title}{value.done}
                 </div>
               </div>
             </div>
