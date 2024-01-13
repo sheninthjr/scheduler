@@ -43,7 +43,7 @@ const NavBar = () => {
     if (userSignin.data?.userId) {
       setUserId({ id: userSignin.data.userId });
     }
-  }, [userSignin.data?.userId]);
+  }, [userSignin]);
 
   if (!session) {
     return (
