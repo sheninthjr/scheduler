@@ -5,11 +5,13 @@ import { useRecoilValue } from "recoil";
 import { userID } from "../store/atoms/userId";
 import { redirect } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const mutation = trpc.schedule.schedulePost.useMutation();
+  
   if(mutation.data?.id){
     redirect('/')
   }
+
   const userId = useRecoilValue(userID);
   const [title, setTitle] = useState("");
   const [day, setDay] = useState("");
@@ -18,6 +20,7 @@ const page = () => {
   const options = { month: "long", day: "numeric", year: "numeric" };
   //@ts-ignore
   const formattedDate = parsedDate.toLocaleDateString("en-US", options);
+  
   const handlePosting = async({ title }: any) => {
     try {
       await mutation.mutate({ title, day: formattedDate, userId: id || "" });
@@ -30,12 +33,11 @@ const page = () => {
       <div className="flex justify-center text-white h-screen items-center">
         <div className="flex flex-col space-y-4 bg-slate-900 w-1/2 h-screen pt-20 p-4">
           <div className="h-screen flex text-black flex-col space-y-4 justify-center items-center">
-            <input
-              className="text-black h-10 rounded-lg p-2"
+            <textarea
+              className="text-black h-10 rounded-lg p-2 resize"
               value={title}
               placeholder="Title"
               onChange={(e) => setTitle(e.target.value)}
-              type="text"
               name=""
               id=""
             />
@@ -58,4 +60,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
