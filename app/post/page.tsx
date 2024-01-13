@@ -3,21 +3,27 @@ import React, { useState } from "react";
 import { trpc } from "../trpc/client";
 import { useRecoilValue } from "recoil";
 import { userID } from "../store/atoms/userId";
+import { redirect } from "next/navigation";
 
 const page = () => {
   const mutation = trpc.schedule.schedulePost.useMutation();
+  if(mutation.data?.id){
+    redirect('/')
+  }
   const userId = useRecoilValue(userID);
   const [title, setTitle] = useState("");
   const [day, setDay] = useState("");
   const id = userId.id;
-  console.log(id)
-
   const parsedDate = new Date(day);
   const options = { month: "long", day: "numeric", year: "numeric" };
   //@ts-ignore
   const formattedDate = parsedDate.toLocaleDateString("en-US", options);
-  const handlePosting = ({ title }: any) => {
-    mutation.mutate({ title, day: formattedDate, userId: id || "" });
+  const handlePosting = async({ title }: any) => {
+    try {
+      await mutation.mutate({ title, day: formattedDate, userId: id || "" });
+    } catch (error) {
+      console.error(error)
+    }
   };
   return (
     <>
