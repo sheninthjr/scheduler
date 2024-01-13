@@ -31,7 +31,7 @@ const Page = () => {
   return (
     <>
       <div className="flex justify-center text-white h-screen items-center">
-        <div className="flex flex-col space-y-4 bg-slate-900 w-1/2 h-screen pt-20 p-4">
+        <div className="flex flex-col space-y-4 w-full  md:w-1/2 lg:bg-slate-900 lg:w-1/2 xl:bg-slate-900 xl:w-1/2 h-screen pt-20 p-4">
           <div className="h-screen flex text-black flex-col space-y-4 justify-center items-center">
             <textarea
               className="text-black h-10 rounded-lg p-2 resize"
@@ -43,7 +43,7 @@ const Page = () => {
             />
             <input
               type="date"
-              className="rounded-lg p-2"
+              className="rounded-lg p-2 text-black"
               value={day}
               onChange={(e) => setDay(e.target.value)}
             />
