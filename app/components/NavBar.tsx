@@ -37,7 +37,7 @@ const NavBar = () => {
       }
     };
     updateUser();
-  }, [session?.user?.email,userSignin]);
+  }, [session?.user?.email]);
 
   useEffect(() => {
     if (userSignin.data?.userId) {
