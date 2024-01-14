@@ -2,7 +2,6 @@ import { appRouter } from "@/app/server";
 import { Post, User } from "@/app/server/db";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
-
 const handler = (req: Request) =>
   fetchRequestHandler({
     endpoint: "/api/trpc",
@@ -12,7 +11,7 @@ const handler = (req: Request) =>
       db: {
         Post: Post,
         User: User
-      }
+      },
     }),
   });
 

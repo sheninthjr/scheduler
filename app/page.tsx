@@ -4,8 +4,8 @@ import { trpc } from "./trpc/client";
 import { useRecoilValue } from "recoil";
 import { userID } from "./store/atoms/userId";
 import Post from "./components/Post";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface CheckedItems {
   [key: string]: boolean;
@@ -24,11 +24,8 @@ export default function Home() {
   const { data, refetch } = trpc.schedule.queryPost.useQuery({
     userId: userId.id || "",
   });
-
-  const { data: session } = useSession()
-  if(!session?.user?.email){
-    redirect('/api/auth/signin')
-  }
+  const router = useRouter()
+  const { data: session } = useSession();
 
   useEffect(() => {
     refetch();
@@ -49,6 +46,31 @@ export default function Home() {
       done: isChecked,
     });
   };
+
+  if(!session){
+    return(
+      <>
+      <div className="h-screen flex justify-center items-center">
+        <div className="bg-white text-black p-2 rounded-lg flex flex-col space-y-4">
+          <div className="text-xl">
+            Welcome to Jr Scheduler
+          </div>
+          <div className="text-red-600">
+            *Please Click the button for Signin
+          </div>
+          <div className="text-white flex justify-center">
+          <button
+                className="flex justify-center items-center w-fit h-8 bg-slate-800 pl-2 pr-2 rounded-lg"
+                onClick={() => signIn()}
+              >
+                Sigin
+              </button>
+          </div>
+        </div>
+      </div>
+      </>
+    )
+  }
   const sortedData = data?.sort((a, b) => {
     const dateA = new Date(a?.day);
     const dateB = new Date(b?.day);
@@ -62,7 +84,6 @@ export default function Home() {
     if (dateA < dateB) return -1;
     return 0;
   });
-
   return (
     <>
       <div className="flex justify-center text-white h-screen items-center">
@@ -96,4 +117,5 @@ export default function Home() {
       </div>
     </>
   );
+
 }
