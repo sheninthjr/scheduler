@@ -4,6 +4,8 @@ import { trpc } from "./trpc/client";
 import { useRecoilValue } from "recoil";
 import { userID } from "./store/atoms/userId";
 import Post from "./components/Post";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 interface CheckedItems {
   [key: string]: boolean;
@@ -22,6 +24,11 @@ export default function Home() {
   const { data, refetch } = trpc.schedule.queryPost.useQuery({
     userId: userId.id || "",
   });
+
+  const { data: session } = useSession()
+  if(!session?.user?.email){
+    redirect('/api/auth/signin')
+  }
 
   useEffect(() => {
     refetch();
