@@ -48,7 +48,7 @@ const NavBar = () => {
   if (!session) {
     return (
       <div>
-        <div className="bg-black h-16 p-4 fixed top-0 w-full z-10 shadow-md shadow-slate-700">
+        <div className="bg-black h-16 p-4 fixed top-0 w-full z-10 shadow-md shadow-slate-700 fixed">
           <div className="flex justify-between">
             <div className="flex font-semibold text-lg">
               <a href="/">Sheninth Jr Scheduler</a>
