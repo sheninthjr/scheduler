@@ -43,7 +43,6 @@ export default function Home() {
     });
   };
 
-  
   const sortedData = data?.sort((a, b) => {
     const dateA = new Date(a?.day);
     const dateB = new Date(b?.day);
@@ -65,6 +64,16 @@ export default function Home() {
     if (dateA < dateB) return -1;
     return 0;
   });
+
+  if (!userId.id) {
+    return (
+      <>
+        <div className="h-screen flex justify-center items-center">
+          Signin to continue
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
